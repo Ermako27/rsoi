@@ -16,13 +16,13 @@ export const getOnePerson = async (id: number): Promise<resBody> => {
 		.rows[0];
 };
 
-export const createOnePerson = async (payload: reqBody): Promise<number> => {
+export const createOnePerson = async (payload: reqBody): Promise<resBody> => {
 	const {name, age, address, work} = payload;
 	return (
 		await pool.query(
-			`INSERT INTO persons (name, age, address, work) VALUES ('${name}', ${age}, '${address}','${work}')`,
+			`INSERT INTO persons (name, age, address, work) VALUES ('${name}', ${age}, '${address}','${work}') RETURNING *`,
 		)
-	).rowCount;
+	).rows[0];
 };
 
 export const updateOnePerson = async (

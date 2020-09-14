@@ -57,9 +57,13 @@ export const createPerson = async (
 	try {
 		const {body} = req;
 
-		await createOnePerson(body);
+		const {id} = await createOnePerson(body);
 
-		res.status(200).json({message: 'person created'});
+		res.set({
+			Location: `https://persons-service.herokuapp.com/persons/${id}`,
+		});
+
+		res.status(201).json({message: 'person created'});
 	} catch {
 		res.status(500).json({message: 'internal server error'});
 	}
