@@ -10,12 +10,12 @@ jobs:
         with:
           node-version: '12'
 
-      # - name: Build project
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '12'
-      # - run: npm install
-      # - run: npm run build
+      - name: Build project
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: npm install
+      - run: npm run build
 
       - name: Deploy project
         uses: akhileshns/heroku-deploy@v3.4.6
