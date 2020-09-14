@@ -6,5 +6,5 @@ const herokuConfig: PoolConfig = {
 		rejectUnauthorized: false,
 	},
 };
-
+console.log('process.env.DATABASE_URL', process.env.DATABASE_URL);
 export const pool = new Pool(herokuConfig);
