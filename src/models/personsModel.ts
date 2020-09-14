@@ -30,17 +30,17 @@ export const updateOnePerson = async (
 	id: number,
 ): Promise<updateResult> => {
 	const {name, age, address, work} = payload;
-	const result = await pool.query(
+
+	const {rows, rowCount} = await pool.query<resBody>(
 		`UPDATE persons SET name = '${name}', age = ${age}, address = '${address}', work = '${work}' WHERE id=${id} RETURNING *`,
 	);
 
 	return {
-		updatedPerson: result.rows[0],
-		updatedRows: result.rowCount,
+		updatedPerson: rows[0],
+		updatedRows: rowCount,
 	};
 };
 
 export const deleteOnePerson = async (id: number): Promise<number> => {
-	return (await pool.query<resBody>(`DELETE FROM persons WHERE id=${id}`))
-		.rowCount;
+	return (await pool.query(`DELETE FROM persons WHERE id=${id}`)).rowCount;
 };
