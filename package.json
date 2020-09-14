@@ -6,7 +6,7 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "start-dev": "npm run clean && npm run build && DATABASE_URL=$(heroku config:get DATABASE_URL -a persons-service) node ./dist/index.js",
-    "start": "DATABASE_URL=$(heroku config:get DATABASE_URL -a persons-service) node ./dist/index.js",
+    "start": "node ./dist/index.js",
     "lint": "eslint src --ext .tsx,.ts",
     "lint-fix": "eslint src --fix --ext .tsx,.ts"
   },
