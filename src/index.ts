@@ -12,7 +12,10 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-	res.status(200).json({message: 'health check'});
+	res.status(200).json({
+		message: 'health check',
+		'process.env.DATABASE_URL': process.env.DATABASE_URL,
+	});
 });
 
 app.get('/persons/:id', getPerson);
