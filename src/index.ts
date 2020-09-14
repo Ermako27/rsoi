@@ -15,7 +15,7 @@ app.get('/', (req: Request, res: Response) => {
 	res.status(200).json({message: 'health check'});
 });
 
-app.get('/presons/:id', getPerson);
+app.get('/persons/:id', getPerson);
 app.get('/persons', getPersons);
 app.post('/persons', createPerson);
 app.patch('/persons/:id', updatePerson);

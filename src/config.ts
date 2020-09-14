@@ -1,8 +1,10 @@
-import {Pool} from 'pg';
+import {Pool, PoolConfig} from 'pg';
 
-export const pool = new Pool({
-	user: 'postgres',
-	host: 'localhost',
-	database: 'persons',
-	port: 5432,
-});
+const herokuConfig: PoolConfig = {
+	connectionString: process.env.DATABASE_URL,
+	ssl: {
+		rejectUnauthorized: false,
+	},
+};
+
+export const pool = new Pool(herokuConfig);
