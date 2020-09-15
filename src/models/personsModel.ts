@@ -7,16 +7,16 @@ interface updateResult {
 	updatedRows: number;
 }
 
-export const getAllPersons = async (): Promise<resBody[]> => {
+const getAllPersons = async (): Promise<resBody[]> => {
 	return (await pool.query<resBody>('SELECT * FROM persons')).rows;
 };
 
-export const getOnePerson = async (id: number): Promise<resBody> => {
+const getOnePerson = async (id: number): Promise<resBody> => {
 	return (await pool.query<resBody>(`SELECT * FROM persons WHERE id=${id}`))
 		.rows[0];
 };
 
-export const createOnePerson = async (payload: reqBody): Promise<resBody> => {
+const createOnePerson = async (payload: reqBody): Promise<resBody> => {
 	const {name, age, address, work} = payload;
 	return (
 		await pool.query(
@@ -25,7 +25,7 @@ export const createOnePerson = async (payload: reqBody): Promise<resBody> => {
 	).rows[0];
 };
 
-export const updateOnePerson = async (
+const updateOnePerson = async (
 	payload: reqBody,
 	id: number,
 ): Promise<updateResult> => {
@@ -41,6 +41,14 @@ export const updateOnePerson = async (
 	};
 };
 
-export const deleteOnePerson = async (id: number): Promise<number> => {
+const deleteOnePerson = async (id: number): Promise<number> => {
 	return (await pool.query(`DELETE FROM persons WHERE id=${id}`)).rowCount;
+};
+
+export default {
+	getAllPersons,
+	getOnePerson,
+	createOnePerson,
+	updateOnePerson,
+	deleteOnePerson,
 };

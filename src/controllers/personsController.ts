@@ -2,13 +2,7 @@ import {Request, Response} from 'express';
 import {reqParams, reqBody} from '../interfaces/request';
 import {resBody, errorRes, errorValidationRes} from '../interfaces/response';
 
-import {
-	getAllPersons,
-	getOnePerson,
-	createOnePerson,
-	updateOnePerson,
-	deleteOnePerson,
-} from '../models/personsModel';
+import personsModel from '../models/personsModel';
 
 export const getPerson = async (
 	req: Request<reqParams, any, reqBody>,
@@ -27,7 +21,7 @@ export const getPerson = async (
 			return;
 		}
 
-		const result = await getOnePerson(id);
+		const result = await personsModel.getOnePerson(id);
 
 		result
 			? res.status(200).json(result)
@@ -42,11 +36,11 @@ export const getPersons = async (
 	res: Response<resBody[] | errorRes | errorValidationRes>,
 ): Promise<void> => {
 	try {
-		const result = await getAllPersons();
-
+		const result = await personsModel.getAllPersons();
 		res.status(200).json(result);
-	} catch {
-		res.status(500).json({message: 'internal server error'});
+		return;
+	} catch (error) {
+		res.status(500).json({message: `internal server error ${error}`});
 	}
 };
 
@@ -57,7 +51,7 @@ export const createPerson = async (
 	try {
 		const {body} = req;
 
-		const {id} = await createOnePerson(body);
+		const {id} = await personsModel.createOnePerson(body);
 
 		res.set({
 			Location: `https://persons-service.herokuapp.com/persons/${id}`,
@@ -76,7 +70,10 @@ export const updatePerson = async (
 	try {
 		const {body} = req;
 		const {id} = req.params;
-		const {updatedPerson, updatedRows} = await updateOnePerson(body, id);
+		const {updatedPerson, updatedRows} = await personsModel.updateOnePerson(
+			body,
+			id,
+		);
 
 		updatedRows
 			? res.status(200).json(updatedPerson)
@@ -92,7 +89,7 @@ export const deletePerson = async (
 ): Promise<void> => {
 	try {
 		const {id} = req.params;
-		const deletedRows = await deleteOnePerson(id);
+		const deletedRows = await personsModel.deleteOnePerson(id);
 
 		deletedRows
 			? res.status(200).json()

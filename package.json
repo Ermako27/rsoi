@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "rsoi labs",
   "scripts": {
+    "test": "jest --detectOpenHandles",
     "build": "tsc",
     "clean": "rimraf dist",
-    "start-dev": "npm run clean && npm run build && DATABASE_URL=$(heroku config:get DATABASE_URL -a persons-service) node ./dist/index.js",
-    "start": "node ./dist/index.js",
+    "start-dev": "npm run clean && npm run build && DATABASE_URL=$(heroku config:get DATABASE_URL -a persons-service) node ./dist/server.js",
+    "start": "node ./dist/server.js",
     "lint": "eslint src --ext .tsx,.ts",
     "lint-fix": "eslint src --fix --ext .tsx,.ts"
   },
@@ -27,6 +28,7 @@
     "@types/jest": "^26.0.13",
     "@types/node": "^14.6.4",
     "@types/pg": "^7.14.4",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
     "eslint": "^7.8.1",
@@ -37,6 +39,7 @@
     "jest": "^26.4.2",
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
+    "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
