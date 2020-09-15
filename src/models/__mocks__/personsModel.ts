@@ -1,6 +1,10 @@
 import {resBody} from '../../interfaces/response';
 import {reqBody} from '../../interfaces/request';
 
+/**
+ * не будем ходить по сети в базу в unit-тестах, поэтому мокаем модель
+ */
+
 let store: resBody[] = [
 	{
 		id: 1,
@@ -18,13 +22,10 @@ interface updateResult {
 
 const getAllPersons = async (): Promise<resBody[]> => {
 	return store;
-	// return (await pool.query<resBody>('SELECT * FROM persons')).rows;
 };
 
 const getOnePerson = async (id: number): Promise<resBody> => {
 	return store.filter((person) => person.id === id)[0];
-	// return (await pool.query<resBody>(`SELECT * FROM persons WHERE id=${id}`))
-	// 	.rows[0];
 };
 
 const createOnePerson = async (payload: reqBody): Promise<resBody> => {
@@ -32,11 +33,6 @@ const createOnePerson = async (payload: reqBody): Promise<resBody> => {
 	store.push(newPerson);
 
 	return newPerson;
-	// return (
-	// 	await pool.query(
-	// 		`INSERT INTO persons (name, age, address, work) VALUES ('${name}', ${age}, '${address}','${work}') RETURNING *`,
-	// 	)
-	// ).rows[0];
 };
 
 const updateOnePerson = async (
@@ -56,15 +52,6 @@ const updateOnePerson = async (
 			updatedRows: 0,
 		};
 	}
-
-	// const {rows, rowCount} = await pool.query<resBody>(
-	// 	`UPDATE persons SET name = '${name}', age = ${age}, address = '${address}', work = '${work}' WHERE id=${id} RETURNING *`,
-	// );
-
-	// return {
-	// 	updatedPerson: rows[0],
-	// 	updatedRows: rowCount,
-	// };
 };
 
 const deleteOnePerson = async (id: number): Promise<number> => {
@@ -76,7 +63,6 @@ const deleteOnePerson = async (id: number): Promise<number> => {
 	} else {
 		return 0;
 	}
-	// return (await pool.query(`DELETE FROM persons WHERE id=${id}`)).rowCount;
 };
 
 export default {
