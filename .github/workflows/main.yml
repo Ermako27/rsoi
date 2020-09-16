@@ -16,6 +16,7 @@ jobs:
           node-version: '12'
       - run: npm install
       - run: npm run build
+      - run: npm test
 
       - name: Deploy project
         uses: akhileshns/heroku-deploy@v3.4.6

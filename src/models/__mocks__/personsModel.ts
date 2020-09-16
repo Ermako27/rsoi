@@ -1,19 +1,11 @@
 import {resBody} from '../../interfaces/response';
 import {reqBody} from '../../interfaces/request';
 
+import {updateStore, getStore} from '../../../test/utils';
+
 /**
  * не будем ходить по сети в базу в unit-тестах, поэтому мокаем модель
  */
-
-let store: resBody[] = [
-	{
-		id: 1,
-		name: 'Max',
-		age: 22,
-		work: 'mail.ru',
-		address: 'home',
-	},
-];
 
 interface updateResult {
 	updatedPerson: resBody | undefined;
@@ -21,16 +13,20 @@ interface updateResult {
 }
 
 const getAllPersons = async (): Promise<resBody[]> => {
-	return store;
+	return getStore();
 };
 
 const getOnePerson = async (id: number): Promise<resBody> => {
-	return store.filter((person) => person.id === id)[0];
+	const store = getStore();
+	return store.filter((person) => person.id === Number(id))[0];
 };
 
 const createOnePerson = async (payload: reqBody): Promise<resBody> => {
+	const store = getStore();
 	const newPerson = {id: store[store.length - 1].id + 1, ...payload};
 	store.push(newPerson);
+
+	updateStore(store);
 
 	return newPerson;
 };
@@ -39,9 +35,13 @@ const updateOnePerson = async (
 	payload: reqBody,
 	id: number,
 ): Promise<updateResult> => {
-	const personIndexInStore = store.findIndex((person) => person.id === id);
+	const store = getStore();
+	const personIndexInStore = store.findIndex(
+		(person) => person.id === Number(id),
+	);
 	if (personIndexInStore !== -1) {
 		store[personIndexInStore] = {id, ...payload};
+		updateStore(store);
 		return {
 			updatedPerson: store[personIndexInStore],
 			updatedRows: 1,
@@ -55,10 +55,14 @@ const updateOnePerson = async (
 };
 
 const deleteOnePerson = async (id: number): Promise<number> => {
-	const personIndexInStore = store.findIndex((person) => person.id === id);
+	let store = getStore();
+	const personIndexInStore = store.findIndex(
+		(person) => person.id === Number(id),
+	);
 
 	if (personIndexInStore !== -1) {
-		store = store.filter((person) => person.id === id);
+		store = store.filter((person) => person.id === Number(id));
+		updateStore(store);
 		return 1;
 	} else {
 		return 0;
