@@ -1,7 +1,7 @@
 import {resBody} from '../../interfaces/response';
 import {reqBody} from '../../interfaces/request';
 
-import {updateStore, getStore} from '../../../test/utils';
+import {updateStore, getStore} from '../../utils';
 
 /**
  * не будем ходить по сети в базу в unit-тестах, поэтому мокаем модель

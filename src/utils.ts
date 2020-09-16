@@ -1,4 +1,4 @@
-import {resBody} from '../src/interfaces/response';
+import {resBody} from './interfaces/response';
 
 let store: resBody[] = [];
 
